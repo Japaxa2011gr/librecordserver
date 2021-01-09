@@ -1,0 +1,10 @@
+alithinoi.com
+  root * /home/noroot/librecord/demo
+  file_server
+  tls japaxa2011gr@gmail.com
+
+  reverse_proxy /ws 127.0.0.1:7000 {
+    header_up Sec-WebSocket-Protocol {>Sec-WebSocket-Protocol}
+  }
+
+
