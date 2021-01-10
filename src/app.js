@@ -13,7 +13,7 @@ var io = require("socket.io")(server, {
         origin: '*',
     }
 });
-var rooms_1 = require("../../sharedclasses/rooms");
+var rooms_1 = require("../sharedclasses/rooms");
 //var io = socket(server)
 //let http = require("http").Server(app);
 //let io = require("socket.io")(app);
@@ -44,6 +44,3 @@ io.on("connection", function (socket) {
         io.in("main").emit("rooms_update", rooms);
     });
 });
-//const server = http.listen(3000, function() {
-//console.log("listening on *:3000");
-// });
