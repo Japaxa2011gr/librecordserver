@@ -23,9 +23,7 @@ add_member(rooms,"malakas","asda","domatio1")
 add_member(rooms,"malakas2","asda","domatio1")
 add_member(rooms,"malakas3","asda","domatio1")
 remove_member(rooms, "malakas2")
-console.log(is_member_joined_rooms(rooms, "malakas"))
-
-console.log(get_members(rooms, "domatio1"))
+console.log("o server anixe")
 
 io.on("connection", function(socket: any)  {
     console.log("irthe")
@@ -43,7 +41,9 @@ io.on("connection", function(socket: any)  {
             remove_member(rooms, username) 
         }
         add_member(rooms,username, media_id, room_id)
-        
+        console.log(username + "mpike sto domatio "+ room_id)
+        console.log(get_members(rooms, room_id))
+
         io.in("main").emit("rooms_update", rooms)
         
     })
