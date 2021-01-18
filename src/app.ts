@@ -19,10 +19,8 @@ const io = require("socket.io")(server, {
 var rooms = new rooms_class();
 add_room(rooms, "domatio1")
 add_room(rooms, "domatio2")
-add_member(rooms,"malakas","asda","domatio1")
-add_member(rooms,"malakas2","asda","domatio1")
-add_member(rooms,"malakas3","asda","domatio1")
-remove_member(rooms, "malakas2")
+
+
 console.log("o server anixe")
 
 io.on("connection", function(socket: any)  {
