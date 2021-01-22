@@ -24,6 +24,7 @@ add_room(rooms, "domatio2")
 console.log("o server anixe")
 
 io.on("connection", function(socket: any)  {
+    let curentUser:string;
     console.log("irthe")
     socket.join("main")
     
@@ -39,6 +40,7 @@ io.on("connection", function(socket: any)  {
             remove_member(rooms, username) 
         }
         add_member(rooms,username, media_id, room_id)
+        curentUser = username;
         console.log(username + "mpike sto domatio "+ room_id)
         console.log(get_members(rooms, room_id))
 
@@ -52,6 +54,10 @@ io.on("connection", function(socket: any)  {
         io.in("main").emit("rooms_update", rooms)
         
     })
+    socket.on('disconnect', function() {
+        remove_member(rooms, curentUser)
+      });
+    
     
 });
 
