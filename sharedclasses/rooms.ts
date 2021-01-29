@@ -1,36 +1,36 @@
 export class user {
     name : string;
-    media_id : string;
-    constructor(name : string, media_id : string){
+    mediaId : string;
+    constructor(name : string, mediaId : string){
         this.name = name;
-        this.media_id = media_id;
+        this.mediaId = mediaId;
 
     }
 
 
 }
-export class room_class{
-    room_id : string;
+export class room{
+    roomId : string;
     members : user[] = [];
     constructor(name : string){
-        this.room_id = name
+        this.roomId = name
 
     }
 
 }
-export function get_room_id(obj:room_class): string{
-    return obj.room_id;
+export function getRoomId(obj:room): string{
+    return obj.roomId;
 
 }
-export function room_get_members(obj:room_class): user[]{
+export function roomGetMembers(obj:room): user[]{
     return obj.members;
 
 }
-export function room_add_member(obj:room_class,member : user): void{
+export function roomAddMember(obj:room,member : user): void{
     obj.members.push(member)
 
 }
-export function room_remove_member(obj:room_class,member : string){
+export function roomRemoveMember(obj:room,member : string){
     for(var x = 0; x < obj.members.length; x++){
         if(member==obj.members[x].name){ 
             
@@ -38,8 +38,8 @@ export function room_remove_member(obj:room_class,member : string){
         }
     }
 }
-export function  is_member_joined_room(obj : room_class, member_id: string):boolean{
-    let array:user[] = room_get_members(obj)
+export function  isMemberJoinedRoom(obj : room, member_id: string):boolean{
+    let array:user[] = roomGetMembers(obj)
     for(let i = 0; i< array.length;i++){
         if(array[i].name == member_id){
             return true;
@@ -48,26 +48,23 @@ export function  is_member_joined_room(obj : room_class, member_id: string):bool
     return false; 
 
 }
-export class rooms_class {
 
-    rooms : room_class[] = [];
 
-}
-export function get_rooms(obj:rooms_class): room_class[]{
+export function getRooms(obj:room[]): room[]{
     //var rooms_list : string[] = [];
     //for(var i = 0; i < obj.rooms.length; i++){
         //rooms_list.push(obj.rooms[i].get_room_id());
         //rooms_list.push(get_room_id(obj.rooms[i]))
 
     //}
-    return obj.rooms;
+    return obj;
 
 }
-export function get_members(obj:rooms_class,room_id : string): user[]{
+export function getMembers(rooms:room[],room_id : string): user[]{
     var result : user[] = []
-    for(var i =0; i < obj.rooms.length; i++){
-        if(get_room_id(obj.rooms[i]) == room_id){
-            result =  room_get_members(obj.rooms[i]);
+    for(var i =0; i < rooms.length; i++){
+        if(getRoomId(rooms[i]) == room_id){
+            result =  roomGetMembers(rooms[i]);
         }
 
     }
@@ -75,42 +72,37 @@ export function get_members(obj:rooms_class,room_id : string): user[]{
     
 
 }
-export function add_room(obj:rooms_class,name : string): void{
-    obj.rooms.push(new room_class(name))
+export function addRoom(rooms:room[],name : string): void{
+    rooms.push(new room(name))
 
 
 }
-export function add_member(obj:rooms_class,name : string, media_id: string, room_id: string): void{
-    for(var i =0; i < obj.rooms.length; i++){
-        if(get_room_id(obj.rooms[i]) == room_id){
-            room_add_member(obj.rooms[i],new user(name, media_id))
+export function addMember(rooms:room[] ,name : string, media_id: string, room_id: string): void{
+    for(var i =0; i < rooms.length; i++){
+        if(getRoomId(rooms[i]) == room_id){
+            roomAddMember(rooms[i],new user(name, media_id))
         }
 
     }
     
 }
-export function remove_member(obj:rooms_class,name : string) : void{
+export function removeMember(rooms:room[] ,name : string) : void{
     
-    let array = get_rooms(obj)
+    let array = getRooms(rooms)
     for(let i = 0; i < array.length;i++){
-        if(is_member_joined_room(array[i],name)){
-            room_remove_member(array[i], name)
+        if(isMemberJoinedRoom(array[i],name)){
+            roomRemoveMember(array[i], name)
         }
     }
 
 }
-export function  is_member_joined_rooms(obj : rooms_class, member_id: string):boolean{
-    let array:room_class[] = get_rooms(obj)
+export function  isMemberJoinedRooms(rooms : room[] , memberId: string):boolean{
+    let array:room[] = getRooms(rooms)
     for(let i = 0; i <array.length; i++){
-        if(is_member_joined_room(array[i],member_id)){
+        if(isMemberJoinedRoom(array[i],memberId)){
             return true
         }
 
     }
     return false
-}
-export function copy_rooms(objp:rooms_class, objc:rooms_class):void{
-
-    objp.rooms = objc.rooms.slice()
-
 }

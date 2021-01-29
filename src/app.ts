@@ -8,7 +8,7 @@ const io = require("socket.io")(server, {
       origin: '*',
     }
   });
-  import { rooms_class, user, room_class, get_room_id, room_get_members, room_add_member, room_remove_member, get_rooms, get_members, add_room, add_member, remove_member, is_member_joined_rooms, is_member_joined_room } from "../sharedclasses/rooms"
+  import {  user, room, getRoomId, roomGetMembers, roomAddMember, roomRemoveMember, getRooms, getMembers, addRoom, addMember, removeMember, isMemberJoinedRooms, isMemberJoinedRoom } from "../sharedclasses/rooms"
 
 
 
@@ -16,9 +16,9 @@ const io = require("socket.io")(server, {
 //let http = require("http").Server(app);
 
 //let io = require("socket.io")(app);
-var rooms = new rooms_class();
-add_room(rooms, "domatio1")
-add_room(rooms, "domatio2")
+var rooms:room[] = []
+addRoom(rooms, "domatio1")
+addRoom(rooms, "domatio2")
 
 
 console.log("o server anixe")
@@ -35,27 +35,27 @@ io.on("connection", function(socket: any)  {
         
         
     });
-    socket.on('room_enter', function(room_id: string, username:string, media_id:string)  {
-        if(is_member_joined_rooms(rooms, username)){
-            remove_member(rooms, username) 
+    socket.on('room_enter', function(roomId: string, username:string, mediaId:string)  {
+        if(isMemberJoinedRooms(rooms, username)){
+            removeMember(rooms, username) 
         }
-        add_member(rooms,username, media_id, room_id)
+        addMember(rooms,username, mediaId, roomId)
         curentUser = username;
-        console.log(username + "mpike sto domatio "+ room_id)
-        console.log(get_members(rooms, room_id))
+        console.log(username + "mpike sto domatio "+ roomId)
+        console.log(getMembers(rooms, roomId))
 
         io.in("main").emit("rooms_update", rooms)
         
     })
     socket.on('room_leave', (room_id :string, username:string) => {
         
-        remove_member(rooms, username)
+        removeMember(rooms, username)
         
         io.in("main").emit("rooms_update", rooms)
         
     })
     socket.on('disconnect', function() {
-        remove_member(rooms, curentUser)
+        removeMember(rooms, curentUser)
       });
     
     

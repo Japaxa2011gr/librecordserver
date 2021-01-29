@@ -1,43 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var user = /** @class */ (function () {
-    function user(name, media_id) {
+    function user(name, mediaId) {
         this.name = name;
-        this.media_id = media_id;
+        this.mediaId = mediaId;
     }
     return user;
 }());
 exports.user = user;
-var room_class = /** @class */ (function () {
-    function room_class(name) {
+var room = /** @class */ (function () {
+    function room(name) {
         this.members = [];
-        this.room_id = name;
+        this.roomId = name;
     }
-    return room_class;
+    return room;
 }());
-exports.room_class = room_class;
-function get_room_id(obj) {
-    return obj.room_id;
+exports.room = room;
+function getRoomId(obj) {
+    return obj.roomId;
 }
-exports.get_room_id = get_room_id;
-function room_get_members(obj) {
+exports.getRoomId = getRoomId;
+function roomGetMembers(obj) {
     return obj.members;
 }
-exports.room_get_members = room_get_members;
-function room_add_member(obj, member) {
+exports.roomGetMembers = roomGetMembers;
+function roomAddMember(obj, member) {
     obj.members.push(member);
 }
-exports.room_add_member = room_add_member;
-function room_remove_member(obj, member) {
+exports.roomAddMember = roomAddMember;
+function roomRemoveMember(obj, member) {
     for (var x = 0; x < obj.members.length; x++) {
         if (member == obj.members[x].name) {
             obj.members.splice(x, 1);
         }
     }
 }
-exports.room_remove_member = room_remove_member;
-function is_member_joined_room(obj, member_id) {
-    var array = room_get_members(obj);
+exports.roomRemoveMember = roomRemoveMember;
+function isMemberJoinedRoom(obj, member_id) {
+    var array = roomGetMembers(obj);
     for (var i = 0; i < array.length; i++) {
         if (array[i].name == member_id) {
             return true;
@@ -45,65 +45,54 @@ function is_member_joined_room(obj, member_id) {
     }
     return false;
 }
-exports.is_member_joined_room = is_member_joined_room;
-var rooms_class = /** @class */ (function () {
-    function rooms_class() {
-        this.rooms = [];
-    }
-    return rooms_class;
-}());
-exports.rooms_class = rooms_class;
-function get_rooms(obj) {
+exports.isMemberJoinedRoom = isMemberJoinedRoom;
+function getRooms(obj) {
     //var rooms_list : string[] = [];
     //for(var i = 0; i < obj.rooms.length; i++){
     //rooms_list.push(obj.rooms[i].get_room_id());
     //rooms_list.push(get_room_id(obj.rooms[i]))
     //}
-    return obj.rooms;
+    return obj;
 }
-exports.get_rooms = get_rooms;
-function get_members(obj, room_id) {
+exports.getRooms = getRooms;
+function getMembers(rooms, room_id) {
     var result = [];
-    for (var i = 0; i < obj.rooms.length; i++) {
-        if (get_room_id(obj.rooms[i]) == room_id) {
-            result = room_get_members(obj.rooms[i]);
+    for (var i = 0; i < rooms.length; i++) {
+        if (getRoomId(rooms[i]) == room_id) {
+            result = roomGetMembers(rooms[i]);
         }
     }
     return result;
 }
-exports.get_members = get_members;
-function add_room(obj, name) {
-    obj.rooms.push(new room_class(name));
+exports.getMembers = getMembers;
+function addRoom(rooms, name) {
+    rooms.push(new room(name));
 }
-exports.add_room = add_room;
-function add_member(obj, name, media_id, room_id) {
-    for (var i = 0; i < obj.rooms.length; i++) {
-        if (get_room_id(obj.rooms[i]) == room_id) {
-            room_add_member(obj.rooms[i], new user(name, media_id));
+exports.addRoom = addRoom;
+function addMember(rooms, name, media_id, room_id) {
+    for (var i = 0; i < rooms.length; i++) {
+        if (getRoomId(rooms[i]) == room_id) {
+            roomAddMember(rooms[i], new user(name, media_id));
         }
     }
 }
-exports.add_member = add_member;
-function remove_member(obj, name) {
-    var array = get_rooms(obj);
+exports.addMember = addMember;
+function removeMember(rooms, name) {
+    var array = getRooms(rooms);
     for (var i = 0; i < array.length; i++) {
-        if (is_member_joined_room(array[i], name)) {
-            room_remove_member(array[i], name);
+        if (isMemberJoinedRoom(array[i], name)) {
+            roomRemoveMember(array[i], name);
         }
     }
 }
-exports.remove_member = remove_member;
-function is_member_joined_rooms(obj, member_id) {
-    var array = get_rooms(obj);
+exports.removeMember = removeMember;
+function isMemberJoinedRooms(rooms, memberId) {
+    var array = getRooms(rooms);
     for (var i = 0; i < array.length; i++) {
-        if (is_member_joined_room(array[i], member_id)) {
+        if (isMemberJoinedRoom(array[i], memberId)) {
             return true;
         }
     }
     return false;
 }
-exports.is_member_joined_rooms = is_member_joined_rooms;
-function copy_rooms(objp, objc) {
-    objp.rooms = objc.rooms.slice();
-}
-exports.copy_rooms = copy_rooms;
+exports.isMemberJoinedRooms = isMemberJoinedRooms;
